@@ -1,18 +1,19 @@
 /**
  * Created by agale_000 on 12/7/2016.
  */
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Card
 {
+    public Card()
+    {
+        Card card;
+    }
     public enum Suit
     {
         SPADES,
         CLUBS,
         DIAMONDS,
-        HEARTS
+        HEARTS;
     }
 
     public enum Value
@@ -29,7 +30,7 @@ public class Card
         TEN,
         JACK,
         QUEEN,
-        KING
+        KING;
 
         public int getValueAceLow()
         {
