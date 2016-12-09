@@ -12,7 +12,7 @@ public class Card
         SPADES,
         CLUBS,
         DIAMONDS,
-        HEARTS
+        HEARTS;
     }
 
     public enum Value
@@ -29,7 +29,7 @@ public class Card
         TEN,
         JACK,
         QUEEN,
-        KING
+        KING;
 
         public int getValueAceLow()
         {
