@@ -23,7 +23,7 @@ public class WarGame
 
 			for (int player = 0; player < hands.length; player++)
 			{
-				System.out.println("Player: ", player);
+				System.out.println("Player: " + player);
 				printHand(hands[player]);
 
 				int player1 = hands[0][0].getValue();
