@@ -7,6 +7,11 @@ import java.util.Random;
  */
 public class Deck extends Card
 {
+    public Deck()
+    {
+        List<Card> deck;
+    }
+
     public static List<Card> makeDeck()
     {
         List<Card> cards = new ArrayList<>();
