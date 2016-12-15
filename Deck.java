@@ -2,32 +2,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by agale_000 on 12/8/2016.
- */
 public class Deck extends Card
 {
+    private List<Card> deck;
+
     public Deck()
     {
-        List<Card> deck;
+        deck = new ArrayList<>();
     }
 
-    public static List<Card> makeDeck()
+
+    /**
+     * Creates a new deck
+     * @return
+     */
+    public  List<Card> makeDeck()
     {
-        List<Card> cards = new ArrayList<>();
+        deck = new ArrayList<>();
 
         for (Card.Suit s : Card.Suit.values())
         {
             for (Card.Value v : Card.Value.values())
             {
-                cards.add(new Card(s, v));
+                deck.add(new Card(s, v));
             }
         }
 
-        return cards;
+        return deck;
     }
 
-    public static List<Card> shuffle(List<Card> deck)
+    public List<Card> shuffle()
     {
         Card temp;
         Random generator = new Random();
@@ -46,5 +50,24 @@ public class Deck extends Card
         }
 
         return deck;
+    }
+
+    /**
+     * Returns the size of the deck
+     * @return
+     */
+    public int getSize()
+    {
+        return deck.size();
+    }
+
+    public Card getCard(int i)
+    {
+        return deck.get(i);
+    }
+
+    public void addCard(Card c)
+    {
+        deck.add(c);
     }
 }
