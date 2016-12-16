@@ -1,76 +1,101 @@
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class WarGame
 {
-	private static Deck playDeck = new Deck();
-	private static Deck playerDeck = new Deck();
-	private static Deck compDeck = new Deck();
+    //Stats instance variables
+    private static int totalBattles;
+    private static int avgBattles;
+    private static int totalWars;
+    private static int avgWars;
+    private static int totalDoubleWars;
+    private static int avgDoubleWars;
+    private static int maxBattles;
+    private static int minBattles;
+    private static int maxWars;
+    private static int minWars;
 
-	public static void main(String args[])
-	{
-		//stats
-		playDeck.makeDeck();
+    private static int count;
+    private static boolean gameReset;
+
+    private static Deck playDeck = new Deck();
+    private static Deck playerDeck = new Deck();
+    private static Deck compDeck = new Deck();
+
+    public static void main(String args[])
+    {
+        playDeck.makeDeck();
         splitHand();
 
-		int battles = 0; //number of battles
-		int wars = 0; //number of wars
-		int doubleWars = 0; //number of double wars
-		int count = 0; // number of battles
-		Boolean gameReset = false; //restarts the game within the while loop
+        totalBattles = 0;
+        totalWars = 0;
+        totalDoubleWars = 0;
 
-		while(count < 1000)
-		{
-			count ++;
-			gameReset = false; //need to move this down?
+        count = 0;
 
-			for (int i = 0; i < 26; i++)
-			{
-				System.out.println("Round " + i + " of the game.");
+        while(count < 1000)
+        {
+        	//gameReset = false; //need to move this down?
 
-				for (int c = 0; c < 1; c++)
-				{
-					for (int player = 0; player < hands.length; player++)
-					{
-						hands[player][0] = playerDeck.dealCard();
-					}
-				}
+            //Cards are dealt
+            while (playerDeck.getSize() > 0 || compDeck.getSize() > 0)
+            {
+                if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 1)
+                {
+                    playerDeck.addCardTo(playerDeck.getCard(0), playerDeck.getSize() - 1);
+                    playerDeck.removeCard(0);
+                    playerDeck.addCardTo(compDeck.getCard(0), playerDeck.getSize() - 1);
+                    compDeck.removeCard(0);
+                }
 
-				for (int player = 0; player < hands.length; player++)
-				{
-					System.out.println("Player: " + player);
-					printHand(hands[player]);
+                else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == -1)
+                {
+                    compDeck.addCardTo(compDeck.getCard(0), compDeck.getSize() - 1);
+                    compDeck.removeCard(0);
+                    compDeck.addCardTo(playerDeck.getCard(0), compDeck.getSize() - 1);
+                    playerDeck.removeCard(0);
+                }
 
-					int player1 = hands[0][0].getValue();
-					int player2 = hands[1][0].getValue();
+                else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
+                {
+                    //wars go here
+                }
 
-					if (player1 > player2)
-					{
-						System.out.println("Player One wins!");
-						battles = battles + 1;
-					}
-					else if (player2 > player1)
-					{
-						System.out.println("Player Two wins!");
-						battles = battles + 1;
-					}
-					else
-					{
-						System.out.println("The game is tied!  A war will decide the victor!");
-						wars = wars + 1;
+                /*for (int player = 0; player < hands.length; player++)
+        		{
+                    System.out.println("Player: " + player);
+        			printHand(hands[player]);
 
-						while(gameReset == false)
-						{
-							// While loop for in the event of a War
-						}
-					}
-				} 
-			}
-		}
-	}
+                    int player1 = hands[0][0].getValue();
+        			int player2 = hands[1][0].getValue();
 
-	public static void splitHand()
+                    if (player1 > player2)
+        			{
+                        System.out.println("Player One wins!");
+        				battles = battles + 1;
+                    }
+                    else if (player2 > player1)
+                    {
+                        System.out.println("Player Two wins!");
+                        battles = battles + 1;
+        			}
+        			else
+                    {
+                        System.out.println("The game is tied!  A war will decide the victor!");
+        				wars = wars + 1;
+
+                        while(gameReset == false)
+        				{
+                            // While loop for in the event of a War
+                        }
+                    }
+                }*/
+            }
+        }
+    }
+
+    public static void splitHand()
     {
         for (int i = 0; i < playDeck.getSize(); i++)
         {
@@ -86,13 +111,34 @@ public class WarGame
         }
     }
 
+    /**
+     * just does the averages, can probably put into the main method at some point
+     */
     public static void averages()
     {
-        avgBattles = battles / 1000;
-        avgDoubleWars = doubleWars / 1000;
-        avgWars = wars / 1000;
+        avgBattles = totalBattles / 1000;
+        avgDoubleWars = totalDoubleWars / 1000;
+        avgWars = totalWars / 1000;
     }
 
+
+    /**
+     * For 1000 games ...
+
+     Average number of battles per game: 321.2
+
+     Average number of wars per game: 24.3
+
+     Average number of double wars per game: 0.5
+
+     Max number of battles in a game: 1234
+
+     Min number of battles in a game: 12
+
+     Max number of wars in a game: 123
+
+     Min number of wars in a game: 1
+     */
     public static void printStats()
     {
         System.out.println("For 1000 games...");
@@ -103,13 +149,14 @@ public class WarGame
         System.out.println("Min number of battles in a game: " + minBattles);
         System.out.println("Max number of wars in a game: " + maxWars);
         System.out.println("Min number of wars in a game: " + minWars);
+    }
 
-	public static void printHand()
-	{
-		for (int card = 0; card < hand.length; card++)
-		{
-			System.out.println(hand[card].toString());
-		}
-		System.out.println();
-	}
+    public static void printHand()
+    {
+        for (int card = 0; card < hand.length; card++)
+        {
+            System.out.println(hand[card].toString());
+        }
+        System.out.println();
+    }
 }
