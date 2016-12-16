@@ -73,4 +73,59 @@ public class WarGame
         }
         System.out.println();
     }
+    /**
+     * just does the averages, can probably put into the main method at some point
+     */
+    public static void averages()
+    {
+        avgBattles = totalBattles / 1000;
+        avgDoubleWars = totalDoubleWars / 1000;
+        avgWars = totalWars / 1000;
+    }
+    /**
+     * Takes a this value and then the comparative number, for the min/max variables, possibly unnecessary
+     * @param other
+     * @return -1 if other > this, 0 if other == this, 1 if this > other
+     */
+    public int compareTo(int other)
+    {
+    }
+
+    /**
+     * For 1000 games ...
+
+     Average number of battles per game: 321.2
+
+     Average number of wars per game: 24.3
+
+     Average number of double wars per game: 0.5
+
+     Max number of battles in a game: 1234
+
+     Min number of battles in a game: 12
+
+     Max number of wars in a game: 123
+
+     Min number of wars in a game: 1
+     */
+    public static void printStats()
+    {
+        System.out.println("For 1000 games...");
+        System.out.println("Average number of battles per game: " + avgBattles);
+        System.out.println("Average number of wars per game: " + avgWars);
+        System.out.println("Average number of double wars per game: " + avgDoubleWars);
+        System.out.println("Max number of battles in a game: " + maxBattles);
+        System.out.println("Min number of battles in a game: " + minBattles);
+        System.out.println("Max number of wars in a game: " + maxWars);
+        System.out.println("Min number of wars in a game: " + minWars);
+    }
+
+    public static void printHand()
+    {
+        for (int card = 0; card < hand.length; card++)
+        {
+            System.out.println(hand[card].toString());
+        }
+        System.out.println();
+    }
 }
