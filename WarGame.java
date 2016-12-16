@@ -38,20 +38,20 @@ public class WarGame
         thisBattle = 0;
 
         count = 0;
-        
-        try
-		{
-			PrintStream myconsole = new PrintStream(new File("stats.txt"));
-			System.setOut(myconsole);
-			myconsole.println(/* whatever is in these parenthesis is the output onto the file */);
-            myconsole.println(/* you can make more lines like this one too*/);
-		}
+	    
+	try
+	{
+		PrintStream myconsole = new PrintStream(new File("stats.txt"));
+		System.setOut(myconsole);
+		myconsole.println(/* this is output onto the file */);
+		myconsole.println(/* you can make more lines like this one too*/);
+	}
 
-		catch(FileNotFoundException fx)
-		{
-			System.out.println(fx);
-		}
-
+	catch(FileNotFoundException fx)
+	{
+		System.out.println(fx);
+	}	
+       
         while(count < 1000)
         {
         	//gameReset = false; //need to move this down?
