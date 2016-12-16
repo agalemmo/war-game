@@ -21,6 +21,8 @@ public class WarGame
     private static int thisWar;
     private static int thisBattle;
 
+    private static char[][] display = new char[100][10];
+
     private static int count;
     private static boolean gameReset;
 
@@ -40,21 +42,13 @@ public class WarGame
         thisWar = 0;
         thisBattle = 0;
 
-        count = 0;
-	    
-	try
-	{
-		PrintStream myconsole = new PrintStream(new File("stats.txt"));
-		System.setOut(myconsole);
-		myconsole.println(/* this is output onto the file */);
-		myconsole.println(/* you can make more lines like this one too*/);
-	}
+        maxBattles = 0;
+        minBattles = 0;
+        maxWars = 0;
+        minWars = 0;
 
-	catch(FileNotFoundException fx)
-	{
-		System.out.println(fx);
-	}	
-       
+        count = 0;
+
         while(count < 1000)
         {
         	//gameReset = false; //need to move this down?
@@ -64,7 +58,11 @@ public class WarGame
             {
                 battle(playerDeck, compDeck);
                 count++;
+                compareStats(thisWar, thisBattle);
             }
+
+            averages();
+            printStats();
         }
     }
 
@@ -119,6 +117,8 @@ public class WarGame
         else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
         {
             war(playerDeck, compDeck);
+            totalWars++;
+            thisWar++;
         }
     }
 
@@ -134,8 +134,8 @@ public class WarGame
             compDeck.removeCard(1);
             playerDeck.removeCard(0);
             playerDeck.removeCard(1);
-            totalWars++;
-            thisWar++;
+            totalBattles++;
+            thisBattle++;
         }
 
         else if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == 1)
@@ -148,16 +148,16 @@ public class WarGame
             compDeck.removeCard(1);
             playerDeck.removeCard(0);
             playerDeck.removeCard(1);
-            totalWars++;
-            thisWar++;
+            totalBattles++;
+            thisBattle++;
         }
 
         else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
         {
             doubleWar(playerDeck, compDeck);
+            totalWars++;
+            thisWar++;
         }
-
-        //checkStats(thisBattle, thisWar);
     }
 
     public static void doubleWar(Deck playerDeck, Deck compDeck)
@@ -172,8 +172,8 @@ public class WarGame
             compDeck.removeCard(1);
             playerDeck.removeCard(0);
             playerDeck.removeCard(1);
-            totalDoubleWars++;
-            thisWar++;
+            totalBattles++;
+            thisBattle++;
         }
 
         else if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == 1)
@@ -186,13 +186,38 @@ public class WarGame
             compDeck.removeCard(1);
             playerDeck.removeCard(0);
             playerDeck.removeCard(1);
-            totalDoubleWars++;
-            thisWar++;
+            totalBattles++;
+            thisBattle++;
         }
 
         else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
         {
             doubleWar(playerDeck, compDeck);
+            totalDoubleWars++;
+            thisWar++;
+        }
+    }
+
+    public static void compareStats(int thisWar, int thisBattle)
+    {
+        if (thisWar > maxWars)
+        {
+            maxWars = thisWar;
+        }
+
+        else if (thisWar < minWars)
+        {
+            minWars = thisWar;
+        }
+
+        else if (thisBattle > maxBattles)
+        {
+            maxBattles = thisBattle;
+        }
+
+        else if (thisBattle < minBattles)
+        {
+            minBattles = thisBattle;
         }
     }
 
@@ -223,14 +248,5 @@ public class WarGame
         System.out.println("Min number of battles in a game: " + minBattles);
         System.out.println("Max number of wars in a game: " + maxWars);
         System.out.println("Min number of wars in a game: " + minWars);
-    }
-
-    public static void printHand()
-    {
-        for (int card = 0; card < hand.length; card++)
-        {
-            System.out.println(hand[card].toString());
-        }
-        System.out.println();
     }
 }
