@@ -160,39 +160,48 @@ public class WarGame
 
     public static void doubleWar(Deck playerDeck, Deck compDeck)
     {
-        if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == -1)
+        if (playerDeck.getSize() == 1 || compDeck.getSize() == 1)
         {
-            compDeck.addCardTo(compDeck.getCard(0), compDeck.getSize() - 1);
-            compDeck.addCardTo(compDeck.getCard(1), compDeck.getSize() - 1);
-            compDeck.addCardTo(playerDeck.getCard(0), compDeck.getSize() - 1);
-            compDeck.addCardTo(playerDeck.getCard(1), compDeck.getSize() - 1);
-            compDeck.removeCard(0);
-            compDeck.removeCard(1);
-            playerDeck.removeCard(0);
-            playerDeck.removeCard(1);
-            totalBattles++;
-            thisBattle++;
-        }
-
-        else if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == 1)
-        {
-            playerDeck.addCardTo(playerDeck.getCard(0), playerDeck.getSize() - 1);
-            playerDeck.addCardTo(playerDeck.getCard(1), playerDeck.getSize() - 1);
-            playerDeck.addCardTo(compDeck.getCard(0), playerDeck.getSize() - 1);
-            playerDeck.addCardTo(compDeck.getCard(1), playerDeck.getSize() - 1);
-            compDeck.removeCard(0);
-            compDeck.removeCard(1);
-            playerDeck.removeCard(0);
-            playerDeck.removeCard(1);
-            totalBattles++;
-            thisBattle++;
-        }
-
-        else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
-        {
-            doubleWar(playerDeck, compDeck);
+            battle(playerDeck, compDeck);
             totalDoubleWars++;
             thisWar++;
+        }
+        for (int i = 2; i < playerDeck.compareSize(compDeck).getSize() - 3; i += 2)
+        {
+            if (playerDeck.getCard(i + 1).compareTo(compDeck.getCard(i + 1)) == -1)
+            {
+                compDeck.addCardTo(compDeck.getCard(i), compDeck.getSize() - 1);
+                compDeck.addCardTo(compDeck.getCard(i + 1), compDeck.getSize() - 1);
+                compDeck.addCardTo(playerDeck.getCard(i), compDeck.getSize() - 1);
+                compDeck.addCardTo(playerDeck.getCard(i + 1), compDeck.getSize() - 1);
+                compDeck.removeCard(0);
+                compDeck.removeCard(i + 1);
+                playerDeck.removeCard(0);
+                playerDeck.removeCard(i + 1);
+                totalBattles++;
+                thisBattle++;
+            }
+
+            else if (playerDeck.getCard(i + 1).compareTo(compDeck.getCard(i + 1)) == 1)
+            {
+                playerDeck.addCardTo(playerDeck.getCard(i), playerDeck.getSize() - 1);
+                playerDeck.addCardTo(playerDeck.getCard(i + 1), playerDeck.getSize() - 1);
+                playerDeck.addCardTo(compDeck.getCard(i), playerDeck.getSize() - 1);
+                playerDeck.addCardTo(compDeck.getCard(i + 1), playerDeck.getSize() - 1);
+                compDeck.removeCard(i);
+                compDeck.removeCard(i + 1);
+                playerDeck.removeCard(i);
+                playerDeck.removeCard(i + 1);
+                totalBattles++;
+                thisBattle++;
+            }
+
+            else if (playerDeck.getCard(i + 1).compareTo(compDeck.getCard(i + 1)) == 0)
+            {
+                doubleWar(playerDeck, compDeck);
+                totalDoubleWars++;
+                thisWar++;
+            }
         }
     }
 
