@@ -48,6 +48,26 @@ public class WarGame
         minWars = 0;
 
         count = 0;
+        
+        System.out.println("Statistics printed to stats.txt.");
+        try
+        {
+            PrintStream myconsole = new PrintStream(new File("stats.txt"));
+            System.setOut(myconsole);
+            myconsole.println("For 1000 games...");
+            myconsole.println("Average number of battles per game: " + avgBattles);
+            myconsole.println("Average number of wars per game: " + avgWars);
+            myconsole.println("Average number of double wars per game: " + avgDoubleWars);
+            myconsole.println("Maximum number of battles in a game: " + maxBattles);
+            myconsole.println("Minimum number of battles in a game: " + minBattles);
+            myconsole.println("Maximum number of wars in a game: " + maxWars);
+            myconsole.println("Minimum number of wars in a game: " + minWars);
+        }
+
+        catch(FileNotFoundException fx)
+        {
+            System.out.println(fx);
+        } 
 
         while(count < 1000)
         {
