@@ -1,8 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.PrintStream;
 
 public class WarGame
@@ -21,7 +18,7 @@ public class WarGame
     private static int thisWar;
     private static int thisBattle;
 
-    private static char[][] display = new char[100][10];
+    //private static char[][] display = new char[100][10];
 
     private static int count;
     private static boolean gameReset;
@@ -48,26 +45,6 @@ public class WarGame
         minWars = 0;
 
         count = 0;
-        
-        System.out.println("Statistics printed to stats.txt.");
-        try
-        {
-            PrintStream myconsole = new PrintStream(new File("stats.txt"));
-            System.setOut(myconsole);
-            myconsole.println("For 1000 games...");
-            myconsole.println("Average number of battles per game: " + avgBattles);
-            myconsole.println("Average number of wars per game: " + avgWars);
-            myconsole.println("Average number of double wars per game: " + avgDoubleWars);
-            myconsole.println("Maximum number of battles in a game: " + maxBattles);
-            myconsole.println("Minimum number of battles in a game: " + minBattles);
-            myconsole.println("Maximum number of wars in a game: " + maxWars);
-            myconsole.println("Minimum number of wars in a game: " + minWars);
-        }
-
-        catch(FileNotFoundException fx)
-        {
-            System.out.println(fx);
-        } 
 
         while(count < 1000)
         {
@@ -268,5 +245,25 @@ public class WarGame
         System.out.println("Min number of battles in a game: " + minBattles);
         System.out.println("Max number of wars in a game: " + maxWars);
         System.out.println("Min number of wars in a game: " + minWars);
+
+        System.out.println("Statistics printed to stats.txt.");
+        try
+        {
+            PrintStream myconsole = new PrintStream(new File("stats.txt"));
+            System.setOut(myconsole);
+            myconsole.println("For 1000 games...");
+            myconsole.println("Average number of battles per game: " + avgBattles);
+            myconsole.println("Average number of wars per game: " + avgWars);
+            myconsole.println("Average number of double wars per game: " + avgDoubleWars);
+            myconsole.println("Maximum number of battles in a game: " + maxBattles);
+            myconsole.println("Minimum number of battles in a game: " + minBattles);
+            myconsole.println("Maximum number of wars in a game: " + maxWars);
+            myconsole.println("Minimum number of wars in a game: " + minWars);
+        }
+
+        catch(FileNotFoundException fx)
+        {
+            System.out.println(fx);
+        }
     }
 }
