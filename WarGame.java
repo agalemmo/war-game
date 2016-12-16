@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.PrintStream;
 
 public class WarGame
 {
@@ -15,7 +15,14 @@ public class WarGame
     private static int minBattles;
     private static int maxWars;
     private static int minWars;
-    
+    private static int thisWar;
+    private static int thisBattle;
+
+    //private static char[][] display = new char[100][10];
+
+    private static int count;
+    private static boolean gameReset;
+
     private static Deck playDeck = new Deck();
     private static Deck playerDeck = new Deck();
     private static Deck compDeck = new Deck();
@@ -23,47 +30,43 @@ public class WarGame
     public static void main(String args[])
     {
         playDeck.makeDeck();
+        playDeck.shuffle();
         splitHand();
 
-        for (int i = 0; i < 26; i++)
+        totalBattles = 0;
+        totalWars = 0;
+        totalDoubleWars = 0;
+
+        thisWar = 0;
+        thisBattle = 0;
+
+        maxBattles = 0;
+        minBattles = 0;
+        maxWars = 0;
+        minWars = 0;
+
+        count = 0;
+
+        while(count < 1000)
         {
-            System.out.println("Round " + i + " of the game.");
+        	//gameReset = false; //need to move this down?
 
-            for (int c = 0; c < 1; c++)
+            //Cards are dealt
+            while (playerDeck.getSize() > 0 || compDeck.getSize() > 0)
             {
-                for (int player = 0; player < hands.length; player++)
-                {
-                    hands[player][0] = playerDeck.dealCard();
-                }
+                battle(playerDeck, compDeck);
+                count++;
+                compareStats(thisWar, thisBattle);
             }
 
-            for (int player = 0; player < hands.length; player++)
-            {
-                System.out.println("Player: " + player);
-                printHand(hands[player]);
-
-                int player1 = hands[0][0].getValue();
-                int player2 = hands[1][0].getValue();
-
-                if (player1 > player2)
-                {
-                    System.out.println("Player One wins!");
-                }
-                else if (player2 > player1)
-                {
-                    System.out.println("Player Two wins!");
-                }
-                else
-                {
-                    System.out.println("The war is tied.");
-                }
-            }
+            averages();
+            printStats();
         }
     }
 
     public static void splitHand()
     {
-        for (int i = 0; i < playDeck.getSize(); i++)
+        for (int i = 0; i < playDeck.getSize() - 1; i++)
         {
             if (i % 2 == 0)
             {
@@ -77,14 +80,6 @@ public class WarGame
         }
     }
 
-    public static void printHand()
-    {
-        for (int card = 0; card < hand.length; card++)
-        {
-            System.out.println(hand[card].toString());
-        }
-        System.out.println();
-    }
     /**
      * just does the averages, can probably put into the main method at some point
      */
@@ -94,13 +89,134 @@ public class WarGame
         avgDoubleWars = totalDoubleWars / 1000;
         avgWars = totalWars / 1000;
     }
-    /**
-     * Takes a this value and then the comparative number, for the min/max variables, possibly unnecessary
-     * @param other
-     * @return -1 if other > this, 0 if other == this, 1 if this > other
-     */
-    public int compareTo(int other)
+
+    public static void battle(Deck playerDeck, Deck compDeck)
     {
+        if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 1)
+        {
+            playerDeck.addCardTo(playerDeck.getCard(0), playerDeck.getSize() - 1);
+            playerDeck.removeCard(0);
+            playerDeck.addCardTo(compDeck.getCard(0), playerDeck.getSize() - 1);
+            compDeck.removeCard(0);
+            totalBattles++;
+            thisBattle++;
+        }
+
+        else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == -1)
+        {
+            compDeck.addCardTo(compDeck.getCard(0), compDeck.getSize() - 1);
+            compDeck.removeCard(0);
+            compDeck.addCardTo(playerDeck.getCard(0), compDeck.getSize() - 1);
+            playerDeck.removeCard(0);
+            totalBattles++;
+            thisBattle++;
+        }
+
+        else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
+        {
+            war(playerDeck, compDeck);
+            totalWars++;
+            thisWar++;
+        }
+    }
+
+    public static void war(Deck playerDeck, Deck compDeck)
+    {
+        if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == -1)
+        {
+            compDeck.addCardTo(compDeck.getCard(0), compDeck.getSize() - 1);
+            compDeck.addCardTo(compDeck.getCard(1), compDeck.getSize() - 1);
+            compDeck.addCardTo(playerDeck.getCard(0), compDeck.getSize() - 1);
+            compDeck.addCardTo(playerDeck.getCard(1), compDeck.getSize() - 1);
+            compDeck.removeCard(0);
+            compDeck.removeCard(1);
+            playerDeck.removeCard(0);
+            playerDeck.removeCard(1);
+            totalBattles++;
+            thisBattle++;
+        }
+
+        else if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == 1)
+        {
+            playerDeck.addCardTo(playerDeck.getCard(0), playerDeck.getSize() - 1);
+            playerDeck.addCardTo(playerDeck.getCard(1), playerDeck.getSize() - 1);
+            playerDeck.addCardTo(compDeck.getCard(0), playerDeck.getSize() - 1);
+            playerDeck.addCardTo(compDeck.getCard(1), playerDeck.getSize() - 1);
+            compDeck.removeCard(0);
+            compDeck.removeCard(1);
+            playerDeck.removeCard(0);
+            playerDeck.removeCard(1);
+            totalBattles++;
+            thisBattle++;
+        }
+
+        else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
+        {
+            doubleWar(playerDeck, compDeck);
+            totalWars++;
+            thisWar++;
+        }
+    }
+
+    public static void doubleWar(Deck playerDeck, Deck compDeck)
+    {
+        if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == -1)
+        {
+            compDeck.addCardTo(compDeck.getCard(0), compDeck.getSize() - 1);
+            compDeck.addCardTo(compDeck.getCard(1), compDeck.getSize() - 1);
+            compDeck.addCardTo(playerDeck.getCard(0), compDeck.getSize() - 1);
+            compDeck.addCardTo(playerDeck.getCard(1), compDeck.getSize() - 1);
+            compDeck.removeCard(0);
+            compDeck.removeCard(1);
+            playerDeck.removeCard(0);
+            playerDeck.removeCard(1);
+            totalBattles++;
+            thisBattle++;
+        }
+
+        else if (playerDeck.getCard(1).compareTo(compDeck.getCard(1)) == 1)
+        {
+            playerDeck.addCardTo(playerDeck.getCard(0), playerDeck.getSize() - 1);
+            playerDeck.addCardTo(playerDeck.getCard(1), playerDeck.getSize() - 1);
+            playerDeck.addCardTo(compDeck.getCard(0), playerDeck.getSize() - 1);
+            playerDeck.addCardTo(compDeck.getCard(1), playerDeck.getSize() - 1);
+            compDeck.removeCard(0);
+            compDeck.removeCard(1);
+            playerDeck.removeCard(0);
+            playerDeck.removeCard(1);
+            totalBattles++;
+            thisBattle++;
+        }
+
+        else if (playerDeck.getCard(0).compareTo(compDeck.getCard(0)) == 0)
+        {
+            doubleWar(playerDeck, compDeck);
+            totalDoubleWars++;
+            thisWar++;
+        }
+    }
+
+    public static void compareStats(int thisWar, int thisBattle)
+    {
+        if (thisWar > maxWars)
+        {
+            maxWars = thisWar;
+        }
+
+        else if (thisWar < minWars)
+        {
+            minWars = thisWar;
+        }
+
+        else if (thisBattle > maxBattles)
+        {
+            maxBattles = thisBattle;
+        }
+
+        else if (thisBattle < minBattles)
+        {
+            minBattles = thisBattle;
+        }
     }
 
     /**
@@ -130,14 +246,25 @@ public class WarGame
         System.out.println("Min number of battles in a game: " + minBattles);
         System.out.println("Max number of wars in a game: " + maxWars);
         System.out.println("Min number of wars in a game: " + minWars);
-    }
 
-    public static void printHand()
-    {
-        for (int card = 0; card < hand.length; card++)
+        System.out.println("Statistics printed to stats.txt.");
+        try
         {
-            System.out.println(hand[card].toString());
+            PrintStream myconsole = new PrintStream(new File("stats.txt"));
+            System.setOut(myconsole);
+            myconsole.println("For 1000 games...");
+            myconsole.println("Average number of battles per game: " + avgBattles);
+            myconsole.println("Average number of wars per game: " + avgWars);
+            myconsole.println("Average number of double wars per game: " + avgDoubleWars);
+            myconsole.println("Maximum number of battles in a game: " + maxBattles);
+            myconsole.println("Minimum number of battles in a game: " + minBattles);
+            myconsole.println("Maximum number of wars in a game: " + maxWars);
+            myconsole.println("Minimum number of wars in a game: " + minWars);
         }
-        System.out.println();
+
+        catch(FileNotFoundException fx)
+        {
+            System.out.println(fx);
+        }
     }
 }
