@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Created by agale_000 on 12/8/2016.
+ */
 public class Deck extends Card
 {
     private List<Card> deck;
@@ -69,5 +72,15 @@ public class Deck extends Card
     public void addCard(Card c)
     {
         deck.add(c);
+    }
+
+    public void addCardTo(Card c, int i)
+    {
+        deck.add(i, c);
+    }
+
+    public void removeCard(int i)
+    {
+        deck.remove(i);
     }
 }
