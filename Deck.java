@@ -2,9 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by agale_000 on 12/8/2016.
- */
 public class Deck extends Card
 {
     private List<Card> deck;
@@ -42,16 +39,17 @@ public class Deck extends Card
 
         //generator.nextInt(deck.size())
 
-        for (int i = deck.size(); i > 0; i--)
+        for (int i = deck.size() - 1; i > 0; i--)
         {
             temp = deck.get(i);
             rand = generator.nextInt(deck.size());
             deck.remove(i);
             deck.add(rand, temp);
             temp = null;
-            System.out.println(deck);
+            //System.out.println(deck);
         }
 
+        System.out.println(deck);
         return deck;
     }
 
