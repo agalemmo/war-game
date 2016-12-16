@@ -4,6 +4,18 @@ import java.util.Random;
 
 public class WarGame
 {
+    //Stats instance variables
+    private static int totalBattles;
+    private static int avgBattles;
+    private static int totalWars;
+    private static int avgWars;
+    private static int totalDoubleWars;
+    private static int avgDoubleWars;
+    private static int maxBattles;
+    private static int minBattles;
+    private static int maxWars;
+    private static int minWars;
+    
     private static Deck playDeck = new Deck();
     private static Deck playerDeck = new Deck();
     private static Deck compDeck = new Deck();
