@@ -17,9 +17,9 @@ public class Deck extends Card
 
     /**
      * Creates a new deck
-     * @return
+     * @return returns deck
      */
-    public  List<Card> makeDeck()
+    public List<Card> makeDeck()
     {
         deck = new ArrayList<>();
 
