@@ -81,4 +81,27 @@ public class Deck extends Card
     {
         deck.remove(i);
     }
+
+    /**
+     * compare sizes of decks
+     * @param other
+     * @return if this > other = 1, other > this = -1, other == this = 0
+     */
+    public int compareTo(Deck other)
+    {
+        if (this.getSize() > other.getSize())
+        {
+            return 1;
+        }
+
+        else if (this.getSize() < other.getSize())
+        {
+            return -1;
+        }
+
+        else
+        {
+            return 0;
+        }
+    }
 }
