@@ -46,10 +46,7 @@ public class Deck extends Card
             deck.remove(i);
             deck.add(rand, temp);
             temp = null;
-            //System.out.println(deck);
         }
-
-        System.out.println(deck);
         return deck;
     }
 
