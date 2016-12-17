@@ -53,6 +53,7 @@ public class Deck extends Card
         return deck;
     }
 
+
     /**
      * Returns the size of the deck
      * @return
@@ -102,6 +103,17 @@ public class Deck extends Card
         else
         {
             return 0;
+        }
+    }
+
+    public void wipe()
+    {
+        if (this.getSize() > 0)
+        {
+            for (int i = this.getSize() - 1; i >= 0; i--)
+            {
+                this.removeCard(i);
+            }
         }
     }
 }
