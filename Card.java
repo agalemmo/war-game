@@ -1,15 +1,20 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Card
 {
     public Card()
     {
         Card card;
     }
+
     public enum Suit
     {
         SPADES,
         CLUBS,
         DIAMONDS,
-        HEARTS;
+        HEARTS
     }
 
     public enum Value
@@ -33,6 +38,7 @@ public class Card
             return this.ordinal();
         }
 
+        //places ace as a higher value than king
         public int getValueAceHigh()
         {
             if (this == ACE)
@@ -47,8 +53,8 @@ public class Card
         }
     }
 
-    private  Suit suit;
-    private  Value value;
+    private Suit suit;
+    private Value value;
 
     public Card(Suit suit, Value value)
     {
@@ -65,7 +71,7 @@ public class Card
                 return true;
             }
 
-            else { return false; }
+            else {return false;}
         }
 
         return false;
@@ -86,11 +92,7 @@ public class Card
         return false;
     }
 
-    /**
-     * Takes a this value and then the comparative number, for the min/max variables, possibly unnecessary
-     * @param other
-     * @return -1 if other > this, 0 if other == this, 1 if this > other
-     */
+    //compares the values of the cards dealt between the players
     public int compareTo(Card other)
     {
         if (this.getValue().getValueAceHigh() == other.getValue().getValueAceHigh())
@@ -110,6 +112,7 @@ public class Card
 
         return 5;
     }
+
 
     public Suit getSuit()
     {
