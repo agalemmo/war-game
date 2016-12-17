@@ -19,8 +19,6 @@ public class WarGame
     private static int thisWar;
     private static int thisBattle;
 
-    //private static char[][] display = new char[100][10];
-
     private static int count;
     private static boolean gameReset;
 
@@ -32,6 +30,7 @@ public class WarGame
 
     public static void main(String args[])
     {
+        //Variables being tracked for the stats.txt
         totalBattles = 0;
         totalWars = 0;
         totalDoubleWars = 0;
@@ -53,7 +52,7 @@ public class WarGame
             playDeck.shuffle();
             splitHand();
 
-            while (playerDeck.getSize() > 0 && compDeck.getSize() > 0)
+            while(playerDeck.getSize() > 0 && compDeck.getSize() > 0)
             {
                 battle(playerDeck, compDeck);
                 if (thisBattle > 1500)
@@ -68,7 +67,6 @@ public class WarGame
             thisWar = 0;
             thisBattle = 0;
             count++;
-            System.out.println(count);
         }
 
         averages();
@@ -101,6 +99,7 @@ public class WarGame
         avgWars = totalWars / 1000;
     }
 
+    //simulates a battle taking place
     public static void battle(Deck playerDeck, Deck compDeck)
     {
         if (playerDeck.getSize() == 0 || compDeck.getSize() == 0)
@@ -183,7 +182,7 @@ public class WarGame
             war(playerDeck, compDeck);
         }
     }
-
+    //in the event of a war
     public static void war(Deck playerDeck, Deck compDeck)
     {
         if (playerDeck.getSize() > 3 && compDeck.getSize() > 3)
@@ -270,6 +269,7 @@ public class WarGame
         }
     }
     
+    //compares statistics from war method to instance variables
     public static void compareStats(int thisWar, int thisBattle)
     {
         if (thisWar > maxWars)
@@ -293,34 +293,9 @@ public class WarGame
         }
     }
 
-    /**
-     * For 1000 games ...
-
-     Average number of battles per game: 321.2
-
-     Average number of wars per game: 24.3
-
-     Average number of double wars per game: 0.5
-
-     Max number of battles in a game: 1234
-
-     Min number of battles in a game: 12
-
-     Max number of wars in a game: 123
-
-     Min number of wars in a game: 1
-     */
+    //notifies user that stats have been printed to a seperate file, prints them to stats.txt
     public static void printStats()
     {
-        System.out.println("For 1000 games...");
-        System.out.println("Average number of battles per game: " + avgBattles);
-        System.out.println("Average number of wars per game: " + avgWars);
-        System.out.println("Average number of double wars per game: " + avgDoubleWars);
-        System.out.println("Max number of battles in a game: " + maxBattles);
-        System.out.println("Min number of battles in a game: " + minBattles);
-        System.out.println("Max number of wars in a game: " + maxWars);
-        System.out.println("Min number of wars in a game: " + minWars);
-
         System.out.println("Statistics printed to stats.txt.");
         try
         {
